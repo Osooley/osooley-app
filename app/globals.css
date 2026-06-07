@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cream:  #F5F0E8;
+  --cream2: #EDE8DF;
+  --cream3: #E0D9CC;
+  --navy:   #1A1A1A;
+  --navy2:  #2A2A2A;
+  --gold:   #C9A84C;
+  --gold2:  #B8973E;
+  --gold3:  #E8C472;
+  --slate:  #6B6B6B;
+  --slate2: #888888;
+  --slate3: #AAAAAA;
+  --green:  #2E7D5E;
+  --green2: #3A9E78;
+  --red:    #C94040;
+  --amber:  #B8760A;
+  --white:  #FFFFFF;
+}
+
+@layer base {
+  * { @apply border-black/10; }
+  body { @apply bg-[#F5F0E8] text-[#1A1A1A]; }
+  h1, h2 { @apply font-serif text-[#1A1A1A]; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #EDE8DF; }
+  ::-webkit-scrollbar-thumb { background: #C9A84C; border-radius: 3px; }
+}
+
+@layer utilities {
+  .text-gold     { color: #C9A84C; }
+  .text-gold2    { color: #B8973E; }
+  .text-cream    { color: #1A1A1A; }
+  .text-cream2   { color: #2A2A2A; }
+  .text-slate2   { color: #888888; }
+  .text-slate3   { color: #AAAAAA; }
+  .text-green2   { color: #2E7D5E; }
+  .bg-navy       { background-color: #1A1A1A; }
+  .bg-navy2      { background-color: #FFFFFF; }
+  .bg-navy3      { background-color: #F0EBE0; }
+
+  .card {
+    @apply bg-white border border-black/[0.08] rounded-2xl shadow-sm;
+  }
+  .card-inner {
+    @apply bg-[#F5F0E8] border border-black/[0.06] rounded-xl;
+  }
+
+  .pulse-gold {
+    animation: pulseGold 2s ease-in-out infinite;
+  }
+  @keyframes pulseGold {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.35s ease forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}

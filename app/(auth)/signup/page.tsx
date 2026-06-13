@@ -106,7 +106,7 @@ export default function SignupPage() {
           <line x1="16" y1="2" x2="16" y2="30" stroke="#C9A84C" strokeWidth="1.5"/>
           <line x1="2" y1="16" x2="30" y2="16" stroke="#C9A84C" strokeWidth="1.5"/>
         </svg>
-        <span className="font-serif text-xl text-[#1A1A1A]">Osooly</span>
+        <span className="font-serif text-xl text-[#1A1A1A]">Osooley</span>
       </Link>
 
       <div className="w-full max-w-md h-0.5 bg-black/10 rounded-full mb-8 overflow-hidden">

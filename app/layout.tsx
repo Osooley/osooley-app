@@ -24,7 +24,7 @@ const dmMono = DM_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Osooly — Vision. Action. Acquisition.',
+  title: 'Osooley — Vision. Action. Acquisition.',
   description: 'Real estate investment platform for first-time and out-of-state investors. Built for Cleveland, OH.',
 }
 

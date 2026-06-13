@@ -1,28 +1,28 @@
 /**
- * Osooly Logo Component
- * 
+ * Osooley Logo Component
+ *
  * To use your actual logo image:
- * 1. Save your logo file as: public/osooly-logo.png (or .svg)
+ * 1. Save your logo file as: public/osooley-logo.png (or .svg)
  * 2. Change USE_IMAGE_LOGO to true below
- * 
+ *
  * Until then, uses the SVG approximation.
  */
 
-const USE_IMAGE_LOGO = true // set to true once you add public/osooly-logo.png
+const USE_IMAGE_LOGO = true // set to true once you add public/osooley-logo.png
 
-export function OosoolyLogo({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
+export function OsooleyLogo({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
   const heights = { sm: 24, md: 32, lg: 48 }
   const h = heights[size]
 
   if (USE_IMAGE_LOGO) {
-    // Once you add public/osooly-logo.png, this will use your real logo
+    // Once you add public/osooley-logo.png, this will use your real logo
     return (
       // eslint-disable-next-line @next/next/no-img-element
-<img src="/Osooly_Logo.jpg" alt="Osooly" height={h} style={{ height: h, width: 'auto' }} />
+<img src="/Osooley_Logo.jpg" alt="Osooley" height={h} style={{ height: h, width: 'auto' }} />
     )
   }
 
-  // SVG approximation of the Osooly segmented-circle logo mark
+  // SVG approximation of the Osooley segmented-circle logo mark
   return (
     <svg width={h} height={h} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="16" cy="16" r="14" stroke="#C9A84C" strokeWidth="2" fill="none"/>

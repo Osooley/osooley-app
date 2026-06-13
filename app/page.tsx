@@ -18,7 +18,7 @@ export default async function LandingPage() {
             <line x1="2" y1="16" x2="30" y2="16" stroke="#C9A84C" strokeWidth="1.5"/>
           </svg>
           <div>
-            <span className="font-serif text-xl text-[#1A1A1A] tracking-tight">Osooly</span>
+            <span className="font-serif text-xl text-[#1A1A1A] tracking-tight">Osooley</span>
             <p className="text-[10px] text-[#AAAAAA] uppercase tracking-widest leading-none">Vision. Action. Acquisition.</p>
           </div>
         </div>
@@ -116,7 +116,7 @@ export default async function LandingPage() {
       </div>
 
       <footer className="border-t border-black/[0.06] bg-white px-8 py-6 text-center text-xs text-[#AAAAAA]">
-        © {new Date().getFullYear()} Osooly · Cleveland, OH · Beta
+        © {new Date().getFullYear()} Osooley · Cleveland, OH · Beta
       </footer>
     </div>
   )

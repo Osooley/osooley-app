@@ -1,5 +1,5 @@
 /**
- * PropWise Deal Calculation Engine
+ * Osooley Deal Calculation Engine
  *
  * Pure TypeScript financial functions — no external dependencies.
  * All inputs in raw numbers (not percentages unless noted).

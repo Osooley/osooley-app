@@ -6,17 +6,17 @@
 ## Step 1 — GitHub (5 min)
 
 1. Create a new repo at github.com → "New repository"
-   - Name: `propwise`
+   - Name: `osooley`
    - Private ✓
    - No README (we have one)
 
 2. Unzip the project and push:
 ```bash
-cd propwise
+cd osooley
 git init
 git add .
-git commit -m "PropWise Cleveland beta — initial commit"
-git remote add origin https://github.com/YOUR_USERNAME/propwise.git
+git commit -m "Osooley Cleveland beta — initial commit"
+git remote add origin https://github.com/YOUR_USERNAME/osooley.git
 git branch -M main
 git push -u origin main
 ```
@@ -26,7 +26,7 @@ git push -u origin main
 ## Step 2 — Supabase (10 min)
 
 1. Go to [supabase.com](https://supabase.com) → "New project"
-   - Name: `propwise-cleveland`
+   - Name: `osooley-cleveland`
    - Password: save this somewhere safe
    - Region: `East US (North Virginia)` — closest to Cleveland
    - Click "Create new project" and wait ~2 min
@@ -69,7 +69,7 @@ git push -u origin main
 ## Step 4 — Vercel Deployment (5 min)
 
 1. Go to [vercel.com](https://vercel.com) → "Add New Project"
-2. Click "Import" next to your `propwise` GitHub repo
+2. Click "Import" next to your `osooley` GitHub repo
 3. Framework: **Next.js** (auto-detected)
 4. Click "Environment Variables" and add all 5:
 
@@ -82,16 +82,16 @@ RENTCAST_API_KEY                = your_rentcast_key
 ```
 
 5. Click "Deploy"
-6. Wait ~2 min → your live URL appears: `propwise-xxx.vercel.app`
+6. Wait ~2 min → your live URL appears: `osooley-xxx.vercel.app`
 
 ---
 
 ## Step 5 — Connect Auth to Your Domain (2 min)
 
-1. Copy your Vercel URL (e.g. `https://propwise-xxx.vercel.app`)
+1. Copy your Vercel URL (e.g. `https://osooley-xxx.vercel.app`)
 2. Go back to Supabase → **Authentication → URL Configuration**
 3. Set "Site URL" to your Vercel URL
-4. Add to "Redirect URLs": `https://propwise-xxx.vercel.app/**`
+4. Add to "Redirect URLs": `https://osooley-xxx.vercel.app/**`
 5. Save
 
 ---
@@ -115,7 +115,7 @@ RENTCAST_API_KEY                = your_rentcast_key
 
 ## Custom Domain (optional, ~10 min)
 
-1. Buy a domain (suggested: `propwisecle.com` or `propwise.io`)
+1. Buy a domain (suggested: `osooleycle.com` or `osooley.io`)
 2. Vercel → Project → Settings → Domains → Add domain
 3. Follow DNS instructions (usually add a CNAME record at your registrar)
 4. Update Supabase redirect URL to match new domain

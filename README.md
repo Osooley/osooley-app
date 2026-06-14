@@ -1,4 +1,4 @@
-# PropWise Cleveland — Beta
+# Osooley Cleveland — Beta
 
 > AI-powered real estate investment platform for first-time and out-of-state investors. Built for the Cleveland, OH market.
 
@@ -8,7 +8,7 @@
 
 ## What This Is
 
-PropWise helps people who have never invested in real estate — or who are unfamiliar with Cleveland — evaluate properties with confidence. Every deal is scored against a proprietary Cleveland Market Index (CMI), run through a comprehensive financial model, and compared honestly against alternatives (HYSA, S&P 500).
+Osooley helps people who have never invested in real estate — or who are unfamiliar with Cleveland — evaluate properties with confidence. Every deal is scored against a proprietary Cleveland Market Index (CMI), run through a comprehensive financial model, and compared honestly against alternatives (HYSA, S&P 500).
 
 The platform never recommends what it wouldn't buy itself.
 
@@ -64,8 +64,8 @@ The platform never recommends what it wouldn't buy itself.
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/propwise.git
-cd propwise
+git clone https://github.com/YOUR_USERNAME/osooley.git
+cd osooley
 npm install
 ```
 
@@ -128,7 +128,7 @@ Vercel auto-deploys on every push to `main`.
 ## Project Structure
 
 ```
-propwise/
+osooley/
 ├── app/
 │   ├── (auth)/
 │   │   ├── login/page.tsx

@@ -1,4 +1,4 @@
-# PropWise — Partner Demo Guide
+# Osooley — Partner Demo Guide
 *What to show your Cleveland network contacts*
 
 ---

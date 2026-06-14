@@ -1,9 +1,9 @@
 #!/bin/bash
-# PropWise — Full Setup Script
+# Osooley — Full Setup Script
 # Run this once to get from zero to deployed beta
 # ---------------------------------------------------
 
-echo "🏠 PropWise Setup Script"
+echo "🏠 Osooley Setup Script"
 echo "========================"
 
 # ─── Step 1: Initialize Git ───────────────────────────────────────────────────
@@ -11,13 +11,13 @@ echo ""
 echo "Step 1: Initializing Git repository..."
 git init
 git add .
-git commit -m "Initial commit — PropWise Cleveland beta"
+git commit -m "Initial commit — Osooley Cleveland beta"
 
 echo ""
-echo "→ Next: Create a new GitHub repository named 'propwise'"
+echo "→ Next: Create a new GitHub repository named 'osooley'"
 echo "  Then run:"
 echo ""
-echo "  git remote add origin https://github.com/YOUR_USERNAME/propwise.git"
+echo "  git remote add origin https://github.com/YOUR_USERNAME/osooley.git"
 echo "  git branch -M main"
 echo "  git push -u origin main"
 echo ""
@@ -31,7 +31,7 @@ echo ""
 echo "Step 3: Supabase setup"
 echo "----------------------"
 echo "1. Go to https://supabase.com → New Project"
-echo "   Name: propwise-cleveland"
+echo "   Name: osooley-cleveland"
 echo "   Password: (save this)"
 echo "   Region: US East (closest to Cleveland)"
 echo ""
@@ -69,14 +69,14 @@ echo "Step 6: Deploy to Vercel"
 echo "------------------------"
 echo "1. Push code to GitHub (from Step 1)"
 echo "2. Go to https://vercel.com → Add New Project"
-echo "3. Import your 'propwise' GitHub repo"
+echo "3. Import your 'osooley' GitHub repo"
 echo "4. Add environment variables (same as .env.local)"
 echo "5. Deploy"
 echo ""
 echo "  Vercel auto-deploys on every push to main."
-echo "  Your beta URL will be: https://propwise.vercel.app"
+echo "  Your beta URL will be: https://osooley.vercel.app"
 echo ""
 echo "  Custom domain: add in Vercel → Project → Domains"
-echo "  Suggested: propwise.io or propwisecle.com"
+echo "  Suggested: osooley.io or osooleycle.com"
 echo ""
 echo "✅ Setup complete. You're ready to show Cleveland partners a live product."

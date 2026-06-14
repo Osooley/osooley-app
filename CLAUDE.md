@@ -33,7 +33,7 @@ It is a pre-revenue MVP. The current priority is **stabilizing the core flow so 
 
 ```
 osooley-app/
-├── Public/                  # Static assets
+├── public/                  # Static assets (lowercase — Next.js only serves from public/)
 ├── app/                     # Next.js App Router pages & routes
 ├── components/              # React components
 ├── lib/                     # Client initialization, helpers (Supabase/Anthropic/RentCast clients live here)

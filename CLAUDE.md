@@ -112,7 +112,7 @@ These are real issues already encountered on this project. Don't relearn them th
 
 This is the demo path. Prioritize bugs that block any of these steps over cosmetic issues.
 
-1. **Landing page** loads fully with correct **Osooley** branding (no leftover "PropWise" references — see To-Dos).
+1. **Landing page** loads fully with correct **Osooley** branding (the former "PropWise" name has been fully removed from the codebase).
 2. **Sign up / log in** (Supabase Auth) — requires the auth URL config above.
 3. **Paste a Cleveland listing URL** → the listing reader extracts property data.
 4. **AI analysis runs** (Claude API) → returns a structured deal analysis.
@@ -131,7 +131,7 @@ This is the demo path. Prioritize bugs that block any of these steps over cosmet
 
 **Before any external/investor demo:**
 - **Patch Next.js.** `15.3.6` has a published security vulnerability — upgrade to the patched version (`package.json` change + redeploy). Do this when not mid-debugging.
-- **Naming cleanup:** the app was previously called "PropWise." Search the codebase for leftover `PropWise` references and replace with `Osooley`. (`NEXT_PUBLIC_APP_NAME` is already `Osooley`.)
+- ✅ **Naming cleanup (done):** the app was previously called "PropWise"; all leftover `PropWise`/`propwise` references have been replaced with `Osooley`/`osooley` (brand prose → `Osooley`, identifiers/URLs → `osooley`). (`NEXT_PUBLIC_APP_NAME` is `Osooley`.)
 - Ensure no dead links or default/placeholder values are visible in the demo path.
 
 **Build-out (after stabilization):**

@@ -18,7 +18,7 @@ export function OsooleyLogo({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
     // Once you add public/osooley-logo.png, this will use your real logo
     return (
       // eslint-disable-next-line @next/next/no-img-element
-<img src="/Osooley_Logo.jpg" alt="Osooley" height={h} style={{ height: h, width: 'auto' }} />
+<img src="/osooley-logo.png" alt="Osooley" height={h} style={{ height: h, width: 'auto' }} className="mix-blend-multiply" />
     )
   }
 

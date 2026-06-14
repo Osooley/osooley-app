@@ -12,14 +12,10 @@ export default async function LandingPage() {
       {/* Nav */}
       <nav className="flex items-center justify-between px-8 py-5 border-b border-black/[0.06] bg-white">
         <div className="flex items-center gap-3">
-          <svg width="36" height="36" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="16" cy="16" r="14" stroke="#C9A84C" strokeWidth="2" fill="none"/>
-            <line x1="16" y1="2" x2="16" y2="30" stroke="#C9A84C" strokeWidth="1.5"/>
-            <line x1="2" y1="16" x2="30" y2="16" stroke="#C9A84C" strokeWidth="1.5"/>
-          </svg>
           <div>
-            <span className="font-serif text-xl text-[#1A1A1A] tracking-tight">Osooley</span>
-            <p className="text-[10px] text-[#AAAAAA] uppercase tracking-widest leading-none">Vision. Action. Acquisition.</p>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/osooley-logo.png" alt="Osooley" className="h-9 w-auto mix-blend-multiply" />
+            <p className="text-[10px] text-[#AAAAAA] uppercase tracking-widest leading-none mt-1 ml-1">Vision. Action. Acquisition.</p>
           </div>
         </div>
         <div className="flex items-center gap-4">

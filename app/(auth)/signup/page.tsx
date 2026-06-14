@@ -100,13 +100,9 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen bg-[#F5F0E8] flex flex-col items-center justify-center px-4 py-12">
-      <Link href="/" className="flex items-center gap-2.5 mb-8">
-        <svg width="30" height="30" viewBox="0 0 32 32" fill="none">
-          <circle cx="16" cy="16" r="14" stroke="#C9A84C" strokeWidth="2" fill="none"/>
-          <line x1="16" y1="2" x2="16" y2="30" stroke="#C9A84C" strokeWidth="1.5"/>
-          <line x1="2" y1="16" x2="30" y2="16" stroke="#C9A84C" strokeWidth="1.5"/>
-        </svg>
-        <span className="font-serif text-xl text-[#1A1A1A]">Osooley</span>
+      <Link href="/" className="mb-8">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/osooley-logo.png" alt="Osooley" className="h-10 w-auto mix-blend-multiply" />
       </Link>
 
       <div className="w-full max-w-md h-0.5 bg-black/10 rounded-full mb-8 overflow-hidden">

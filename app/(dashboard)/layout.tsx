@@ -23,17 +23,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <aside className="w-60 flex-shrink-0 border-r border-black/[0.08] bg-white flex flex-col">
         {/* Logo */}
         <div className="px-5 py-5 border-b border-black/[0.06]">
-          <Link href="/" className="flex items-center gap-2.5">
-            {/* Osooley logo mark - segmented circle in gold */}
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="16" cy="16" r="14" stroke="#C9A84C" strokeWidth="2" fill="none"/>
-              <line x1="16" y1="2" x2="16" y2="30" stroke="#C9A84C" strokeWidth="1.5"/>
-              <line x1="2" y1="16" x2="30" y2="16" stroke="#C9A84C" strokeWidth="1.5"/>
-              <line x1="16" y1="16" x2="16" y2="30" stroke="#C9A84C" strokeWidth="1.5"/>
-            </svg>
-            <span className="font-serif text-lg text-[#1A1A1A] tracking-tight">Osooley</span>
+          <Link href="/" className="flex items-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/osooley-logo.png" alt="Osooley" className="h-7 w-auto mix-blend-multiply" />
           </Link>
-          <p className="text-[10px] text-[#AAAAAA] mt-1 ml-10 uppercase tracking-widest">Vision. Action. Acquisition.</p>
+          <p className="text-[10px] text-[#AAAAAA] mt-1.5 ml-0.5 uppercase tracking-widest">Vision. Action. Acquisition.</p>
         </div>
 
         {/* Profile pill */}

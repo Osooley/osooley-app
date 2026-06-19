@@ -62,8 +62,10 @@ export async function POST(req: NextRequest) {
 
     // Use Claude to extract data from the page
     const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514',
+      model: 'claude-sonnet-4-6',
       max_tokens: 1500,
+      thinking: { type: 'disabled' },
+      output_config: { effort: 'low' },
       messages: [{
         role: 'user',
         content: `Extract real estate listing data from this page content. Return ONLY valid JSON.

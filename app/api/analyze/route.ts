@@ -219,8 +219,10 @@ Do not repeat all the numbers — the user can see them. Focus on interpretation
 
   try {
     const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514',
+      model: 'claude-sonnet-4-6',
       max_tokens: 400,
+      thinking: { type: 'disabled' },
+      output_config: { effort: 'low' },
       messages: [{ role: 'user', content: prompt }],
     })
     return response.content[0].type === 'text' ? response.content[0].text : ''

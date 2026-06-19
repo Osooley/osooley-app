@@ -25,8 +25,10 @@ export async function POST(req: NextRequest) {
     let claudeResponse
     try {
       claudeResponse = await anthropic.messages.create({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-6',
         max_tokens: 1500,
+        thinking: { type: 'disabled' },
+        output_config: { effort: 'low' },
         messages: [{
           role: 'user',
           content: `You are a real estate investment analyst. Extract financially relevant data from this listing and return ONLY valid JSON.

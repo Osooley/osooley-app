@@ -35,6 +35,28 @@ function DataBadge({ source }: { source?: DataSource | string }) {
   return <span className={`text-[10px] px-1.5 py-0.5 rounded border ${SOURCE_STYLES[source as DataSource]}`}>{SOURCE_LABELS[source as DataSource]}</span>
 }
 
+// Defined at module scope (NOT inside AnalyzePage) so its identity is stable
+// across renders — otherwise React remounts each input on every keystroke and
+// the field loses focus after a single digit.
+function Field({label, name, value, prefix, suffix, source, placeholder, step: fStep, hint, onChange}:
+  {label:string;name:string;value:any;prefix?:string;suffix?:string;source?:DataSource;placeholder?:string;step?:number;hint?:string;onChange:React.ChangeEventHandler<HTMLInputElement>}) {
+  return (
+    <div>
+      <div className="flex items-center gap-1.5 mb-1.5 flex-wrap">
+        <label className="text-xs text-[#888888] uppercase tracking-wider">{label}</label>
+        {source && <DataBadge source={source}/>}
+      </div>
+      <div className="relative flex items-center">
+        {prefix && <span className="absolute left-3 text-[#AAAAAA] text-sm">{prefix}</span>}
+        <input type="number" inputMode="decimal" name={name} value={value||''} onChange={onChange} placeholder={placeholder} step={fStep}
+          className={`no-spinner w-full py-2.5 bg-[#F5F0E8] border border-black/10 rounded-lg text-sm text-[#1A1A1A] placeholder-[#AAAAAA] focus:outline-none focus:border-[#C9A84C]/60 transition-colors ${prefix?'pl-7':'px-3'} ${suffix?'pr-10':'pr-3'}`}/>
+        {suffix && <span className="absolute right-3 text-[#AAAAAA] text-sm">{suffix}</span>}
+      </div>
+      {hint && <p className="text-[10px] text-[#AAAAAA] mt-1">{hint}</p>}
+    </div>
+  )
+}
+
 function ConfidenceBar({ sources }: { sources: Record<string, DataSource> }) {
   const vals = Object.values(sources).map(s => SOURCE_CONFIDENCE[s] ?? 40)
   const score = vals.length > 0 ? Math.round(vals.reduce((a, b) => a + b, 0) / vals.length) : 40
@@ -425,25 +447,6 @@ export default function AnalyzePage() {
 
   const canRun = form.purchase_price > 0 && form.monthly_rent > 0
 
-  function Field({label, name, value, prefix, suffix, source, placeholder, step: fStep, hint}:
-    {label:string;name:string;value:any;prefix?:string;suffix?:string;source?:DataSource;placeholder?:string;step?:number;hint?:string}) {
-    return (
-      <div>
-        <div className="flex items-center gap-1.5 mb-1.5 flex-wrap">
-          <label className="text-xs text-[#888888] uppercase tracking-wider">{label}</label>
-          {source && <DataBadge source={source}/>}
-        </div>
-        <div className="relative flex items-center">
-          {prefix && <span className="absolute left-3 text-[#AAAAAA] text-sm">{prefix}</span>}
-          <input type="number" name={name} value={value||''} onChange={handleChange} placeholder={placeholder} step={fStep}
-            className={`w-full py-2.5 bg-[#F5F0E8] border border-black/10 rounded-lg text-sm text-[#1A1A1A] placeholder-[#AAAAAA] focus:outline-none focus:border-[#C9A84C]/60 transition-colors ${prefix?'pl-7':'px-3'} ${suffix?'pr-10':'pr-3'}`}/>
-          {suffix && <span className="absolute right-3 text-[#AAAAAA] text-sm">{suffix}</span>}
-        </div>
-        {hint && <p className="text-[10px] text-[#AAAAAA] mt-1">{hint}</p>}
-      </div>
-    )
-  }
-
   const occupancyConfig = {
     occupied: { label: 'Tenant occupied', color: 'text-[#2E7D5E]', bg: 'bg-[#2E7D5E]/10', border: 'border-[#2E7D5E]/25', icon: '✓' },
     vacant:   { label: 'Vacant', color: 'text-amber-700', bg: 'bg-amber-50', border: 'border-amber-200', icon: '○' },
@@ -642,42 +645,42 @@ export default function AnalyzePage() {
             <div className="bg-white rounded-2xl border border-black/[0.08] shadow-sm p-5">
               <p className="text-xs uppercase tracking-widest text-[#C9A84C] font-semibold mb-4">Key numbers</p>
               <div className="grid grid-cols-2 gap-3">
-                <Field label="Purchase price" name="purchase_price" value={form.purchase_price} prefix="$" placeholder="Enter offer price"
+                <Field onChange={handleChange} label="Purchase price" name="purchase_price" value={form.purchase_price} prefix="$" placeholder="Enter offer price"
                   source={inputSources.purchase_price as DataSource}
                   hint={prefill.last_sale_price ? `Last sold: $${prefill.last_sale_price.toLocaleString()}` : undefined}/>
-                <Field label={isMultiFamily ? 'Total monthly rent (all units)' : 'Monthly rent'} name="monthly_rent" value={form.monthly_rent} prefix="$" placeholder="Market rent estimate"
+                <Field onChange={handleChange} label={isMultiFamily ? 'Total monthly rent (all units)' : 'Monthly rent'} name="monthly_rent" value={form.monthly_rent} prefix="$" placeholder="Market rent estimate"
                   source={inputSources.monthly_rent as DataSource}
                   hint={rentRange ? `Market range: $${rentRange.low.toLocaleString()}–$${rentRange.high.toLocaleString()}` : undefined}/>
-                <Field label="Section 8 rent" name="section8_rent" value={form.section8_rent} prefix="$" placeholder="If applicable"/>
-                <Field label="Year built" name="year_built" value={form.year_built} placeholder="Year" source={inputSources.year_built as DataSource}/>
-                <Field label="Square footage" name="sqft" value={form.sqft} placeholder="Sq ft" source={inputSources.sqft as DataSource}/>
-                <Field label="ZIP code" name="zip" value={form.zip} placeholder="ZIP" source={inputSources.zip as DataSource}/>
+                <Field onChange={handleChange} label="Section 8 rent" name="section8_rent" value={form.section8_rent} prefix="$" placeholder="If applicable"/>
+                <Field onChange={handleChange} label="Year built" name="year_built" value={form.year_built} placeholder="Year" source={inputSources.year_built as DataSource}/>
+                <Field onChange={handleChange} label="Square footage" name="sqft" value={form.sqft} placeholder="Sq ft" source={inputSources.sqft as DataSource}/>
+                <Field onChange={handleChange} label="ZIP code" name="zip" value={form.zip} placeholder="ZIP" source={inputSources.zip as DataSource}/>
               </div>
             </div>
 
             <div className="bg-white rounded-2xl border border-black/[0.08] shadow-sm p-5">
               <p className="text-xs uppercase tracking-widest text-[#C9A84C] font-semibold mb-4">Financing</p>
               <div className="grid grid-cols-2 gap-3">
-                <Field label="Down payment" name="down_payment_pct" value={form.down_payment_pct} suffix="%" step={0.5} source="you"/>
-                <Field label="Interest rate" name="interest_rate" value={form.interest_rate} suffix="%" step={0.05} source="you"/>
-                <Field label="Seller credits" name="seller_credits" value={form.seller_credits} prefix="$" source="you"/>
-                <Field label="Rehab cost" name="rehab_cost" value={form.rehab_cost} prefix="$" source="you"/>
+                <Field onChange={handleChange} label="Down payment" name="down_payment_pct" value={form.down_payment_pct} suffix="%" step={0.5} source="you"/>
+                <Field onChange={handleChange} label="Interest rate" name="interest_rate" value={form.interest_rate} suffix="%" step={0.05} source="you"/>
+                <Field onChange={handleChange} label="Seller credits" name="seller_credits" value={form.seller_credits} prefix="$" source="you"/>
+                <Field onChange={handleChange} label="Rehab cost" name="rehab_cost" value={form.rehab_cost} prefix="$" source="you"/>
               </div>
             </div>
 
             <div className="bg-white rounded-2xl border border-black/[0.08] shadow-sm p-5">
               <p className="text-xs uppercase tracking-widest text-[#C9A84C] font-semibold mb-4">Expenses</p>
               <div className="grid grid-cols-2 gap-3">
-                <Field label="Taxes (annual)" name="property_taxes_annual" value={form.property_taxes_annual} prefix="$"
+                <Field onChange={handleChange} label="Taxes (annual)" name="property_taxes_annual" value={form.property_taxes_annual} prefix="$"
                   source={inputSources.property_taxes_annual as DataSource || 'assumed'}/>
-                <Field label="Insurance/mo" name="insurance_monthly" value={form.insurance_monthly} prefix="$" source="assumed"/>
-                <Field label="PM fee" name="pm_fee_pct" value={form.pm_fee_pct} suffix="%" source="you"/>
-                <Field label="Vacancy rate" name="vacancy_rate" value={form.vacancy_rate} suffix="%"
+                <Field onChange={handleChange} label="Insurance/mo" name="insurance_monthly" value={form.insurance_monthly} prefix="$" source="assumed"/>
+                <Field onChange={handleChange} label="PM fee" name="pm_fee_pct" value={form.pm_fee_pct} suffix="%" source="you"/>
+                <Field onChange={handleChange} label="Vacancy rate" name="vacancy_rate" value={form.vacancy_rate} suffix="%"
                   source={inputSources.vacancy_rate as DataSource || 'assumed'}/>
-                <Field label="CapEx reserve" name="capex_monthly" value={form.capex_monthly} prefix="$" source="assumed"/>
-                <Field label="Maintenance" name="maintenance_monthly" value={form.maintenance_monthly} prefix="$" source="assumed"/>
-                <Field label="Owner utilities" name="utilities_monthly" value={form.utilities_monthly} prefix="$" source="you"/>
-                <Field label="Lawn/snow" name="lawn_monthly" value={form.lawn_monthly} prefix="$" source="you"/>
+                <Field onChange={handleChange} label="CapEx reserve" name="capex_monthly" value={form.capex_monthly} prefix="$" source="assumed"/>
+                <Field onChange={handleChange} label="Maintenance" name="maintenance_monthly" value={form.maintenance_monthly} prefix="$" source="assumed"/>
+                <Field onChange={handleChange} label="Owner utilities" name="utilities_monthly" value={form.utilities_monthly} prefix="$" source="you"/>
+                <Field onChange={handleChange} label="Lawn/snow" name="lawn_monthly" value={form.lawn_monthly} prefix="$" source="you"/>
               </div>
             </div>
 

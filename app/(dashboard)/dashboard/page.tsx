@@ -42,12 +42,6 @@ export default async function DashboardPage() {
         </Link>
       </div>
 
-      {/* Notification bar */}
-      <div className="flex items-center gap-3 bg-[#C9A84C]/10 border border-[#C9A84C]/25 rounded-xl px-4 py-3 mb-6 text-sm text-[#1A1A1A]">
-        <span className="w-2 h-2 rounded-full bg-[#C9A84C] pulse-gold flex-shrink-0" />
-        2 network deals in your dashboard — Pythias Ave (44110) and Roanoke Ave (44109)
-      </div>
-
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
         {[

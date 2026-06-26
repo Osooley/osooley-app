@@ -8,13 +8,14 @@
  *   3. deal_tracker    — an "exploring" tracker with a starter checklist
  *
  * Body: { address, zip, year_built, sqft, inputs, result }
- * Returns: { ok: true, property_id } | { error }
+ * Returns: { ok: true, property_id, warnings } | { error }
  *
  * No schema changes required — the tables and their RLS insert policies
  * (with check auth.uid() = user_id) already support this.
  */
 
 import { NextRequest, NextResponse } from 'next/server'
+import { randomUUID } from 'node:crypto'
 import { createClient } from '@/lib/supabase/server'
 
 // Generic starter checklist for a freshly-saved deal in the "exploring" stage.
@@ -50,37 +51,40 @@ export async function POST(req: NextRequest) {
       zipCols = known ? { zip } : { zip_freeform: zip }
     }
 
-    // 1. Property (owned by the user → appears under "Properties you brought in")
-    const { data: prop, error: propErr } = await supabase
-      .from('properties')
-      .insert({
-        user_id: user.id,
-        address: address || 'Saved property',
-        ...zipCols,
-        city: 'Cleveland',
-        state: 'OH',
-        property_type: 'sfr',
-        sqft: sqft || null,
-        year_built: year_built || null,
-        units: 1,
-        list_price: inputs.purchase_price || null,
-        offer_price: inputs.purchase_price || null,
-        source: 'self',
-        network_verified: false,
-        status: 'exploring',
-        notes: result.verdict_reason || null,
-      })
-      .select('id')
-      .single()
+    // 1. Property (owned by the user → appears under "Properties you brought in").
+    // Generate the id server-side so we don't depend on an RLS-gated readback.
+    const propertyId = randomUUID()
+    const { error: propErr } = await supabase.from('properties').insert({
+      id: propertyId,
+      user_id: user.id,
+      address: address || 'Saved property',
+      ...zipCols,
+      city: 'Cleveland',
+      state: 'OH',
+      property_type: 'sfr',
+      sqft: sqft || null,
+      year_built: year_built || null,
+      units: 1,
+      list_price: inputs.purchase_price || null,
+      offer_price: inputs.purchase_price || null,
+      source: 'self',
+      network_verified: false,
+      status: 'exploring',
+      notes: result.verdict_reason || null,
+    })
 
-    if (propErr || !prop) {
+    if (propErr) {
       console.error('save-deal: property insert failed', propErr)
-      return NextResponse.json({ error: 'Could not save property.' }, { status: 500 })
+      return NextResponse.json({
+        error: `Could not save property: ${propErr.message}${propErr.code ? ` [${propErr.code}]` : ''}`,
+      }, { status: 500 })
     }
+
+    const warnings: string[] = []
 
     // 2. Analysis linked to the new property
     const { error: analysisErr } = await supabase.from('analyses').insert({
-      property_id: prop.id,
+      property_id: propertyId,
       user_id: user.id,
       purchase_price: inputs.purchase_price ?? null,
       down_payment_pct: inputs.down_payment_pct ?? null,
@@ -119,18 +123,24 @@ export async function POST(req: NextRequest) {
       expense_breakdown: result.expenses ?? null,
       projections: result.projections ?? null,
     })
-    if (analysisErr) console.error('save-deal: analysis insert failed', analysisErr)
+    if (analysisErr) {
+      console.error('save-deal: analysis insert failed', analysisErr)
+      warnings.push(`analysis: ${analysisErr.message}`)
+    }
 
     // 3. Tracker so it shows on the Portfolio page
     const { error: trackerErr } = await supabase.from('deal_tracker').insert({
-      property_id: prop.id,
+      property_id: propertyId,
       user_id: user.id,
       stage: 'exploring',
       tasks: STARTER_TASKS,
     })
-    if (trackerErr) console.error('save-deal: tracker insert failed', trackerErr)
+    if (trackerErr) {
+      console.error('save-deal: tracker insert failed', trackerErr)
+      warnings.push(`tracker: ${trackerErr.message}`)
+    }
 
-    return NextResponse.json({ ok: true, property_id: prop.id })
+    return NextResponse.json({ ok: true, property_id: propertyId, warnings })
   } catch (e: any) {
     console.error('save-deal error:', e)
     return NextResponse.json({ error: e?.message || 'Could not save deal.' }, { status: 500 })

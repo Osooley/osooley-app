@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 
 type DataSource = 'verified' | 'rentcast' | 'assumed' | 'you' | 'listing'
 
@@ -300,6 +301,8 @@ export default function AnalyzePage() {
     hoa_monthly: 0, utilities_monthly: 0, lawn_monthly: 0, section8_rent: 0,
   })
   const [result, setResult] = useState<any>(null)
+  const [saveStatus, setSaveStatus] = useState<'idle'|'saving'|'saved'|'error'>('idle')
+  const [saveError, setSaveError] = useState('')
   const [listingUrl, setListingUrl] = useState('')
   const [listingText, setListingText] = useState('')
   const [listingParsing, setListingParsing] = useState(false)
@@ -440,9 +443,37 @@ export default function AnalyzePage() {
       })
       const data = await res.json()
       if (data.error) throw new Error(data.error)
-      setResult(data); setStep('result')
+      setResult(data); setStep('result'); setSaveStatus('idle')
     } catch (e: any) { setError(e.message ?? 'Analysis failed') }
     setAnalyzeLoading(false)
+  }
+
+  async function saveDeal() {
+    if (!result) return
+    setSaveStatus('saving'); setSaveError('')
+    try {
+      const inputs = {
+        purchase_price: form.purchase_price || 0,
+        down_payment_pct: form.down_payment_pct, interest_rate: form.interest_rate,
+        loan_term_years: 30, seller_credits: form.seller_credits,
+        monthly_rent: form.monthly_rent || 0,
+        section8_rent: form.section8_rent || undefined,
+        property_taxes_annual: form.property_taxes_annual || 2400,
+        insurance_monthly: form.insurance_monthly, hoa_monthly: form.hoa_monthly,
+        pm_fee_pct: form.pm_fee_pct, vacancy_rate: form.vacancy_rate,
+        maintenance_monthly: form.maintenance_monthly, capex_monthly: form.capex_monthly,
+        rehab_cost: form.rehab_cost,
+      }
+      const res = await fetch('/api/save-deal', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ address, zip: form.zip || '', year_built: form.year_built || 1970, sqft: form.sqft || 1000, inputs, result }),
+      })
+      const data = await res.json()
+      if (!res.ok || data.error) throw new Error(data.error || `Server error ${res.status}`)
+      setSaveStatus('saved')
+    } catch (e: any) {
+      setSaveError(e.message || 'Could not save deal'); setSaveStatus('error')
+    }
   }
 
   const canRun = form.purchase_price > 0 && form.monthly_rent > 0
@@ -732,9 +763,18 @@ export default function AnalyzePage() {
           <div className="flex items-center gap-3 mb-6">
             <button onClick={()=>setStep('review')} className="text-sm text-[#888888] hover:text-[#C9A84C] transition-colors">← Edit inputs</button>
             <div className="flex-1 h-px bg-black/[0.06]"/>
-            <button onClick={()=>{setStep('address');setAddress('');setListingUrl('');setResult(null);setPrefill({});setInputSources({});setRentRange(null);setIsMultiFamily(false);setOccupancyStatus('unknown')}}
+            {saveStatus === 'saved' ? (
+              <Link href="/portfolio" className="text-sm font-medium text-[#2E7D5E] hover:text-[#256b4f] transition-colors">✓ Saved — view in portfolio →</Link>
+            ) : (
+              <button onClick={saveDeal} disabled={saveStatus === 'saving'}
+                className="px-4 py-2 bg-[#1A1A1A] text-white text-sm font-medium rounded-lg hover:bg-[#C9A84C] transition-colors disabled:opacity-40">
+                {saveStatus === 'saving' ? 'Saving…' : '+ Save to portfolio'}
+              </button>
+            )}
+            <button onClick={()=>{setStep('address');setAddress('');setListingUrl('');setResult(null);setPrefill({});setInputSources({});setRentRange(null);setIsMultiFamily(false);setOccupancyStatus('unknown');setSaveStatus('idle')}}
               className="text-sm text-[#888888] hover:text-[#C9A84C] transition-colors">Analyze another →</button>
           </div>
+          {saveStatus === 'error' && <p className="text-xs text-red-600 mb-4">{saveError}</p>}
           <QuickResult result={result} inputs={form} address={address} inputSources={inputSources}/>
         </div>
       )}

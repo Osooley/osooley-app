@@ -42,6 +42,13 @@ export default async function DashboardPage() {
         </Link>
       </div>
 
+      {(properties?.length ?? 0) > 0 && (
+        <div className="flex items-center gap-3 bg-[#C9A84C]/10 border border-[#C9A84C]/25 rounded-xl px-4 py-3 mb-6 text-sm text-[#1A1A1A]">
+          <span className="w-2 h-2 rounded-full bg-[#C9A84C] pulse-gold flex-shrink-0" />
+          {properties!.length} propert{properties!.length === 1 ? 'y' : 'ies'} in your portfolio — {properties!.slice(0, 2).map((p: any) => `${p.address}${p.zip ? ` (${p.zip})` : ''}`).join(' and ')}{properties!.length > 2 ? `, +${properties!.length - 2} more` : ''}
+        </div>
+      )}
+
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
         {[

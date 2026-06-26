@@ -28,6 +28,8 @@ const OWNER_COLORS: Record<TaskOwner, string> = {
 export function DealTrackerCard({ tracker }: { tracker: any }) {
   const [tasks, setTasks] = useState<any[]>(tracker.tasks ?? [])
   const [expanded, setExpanded] = useState(tracker.stage === 'under_contract')
+  const [removed, setRemoved] = useState(false)
+  const [removing, setRemoving] = useState(false)
   const supabase = createClient()
 
   const property = tracker.properties
@@ -48,10 +50,30 @@ export function DealTrackerCard({ tracker }: { tracker: any }) {
       .eq('id', tracker.id)
   }
 
+  async function removeDeal() {
+    if (!window.confirm(`Remove ${property?.address ?? 'this property'} from your portfolio? This deletes its saved analysis and tracker.`)) return
+    setRemoving(true)
+    try {
+      const res = await fetch('/api/delete-deal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ property_id: tracker.property_id }),
+      })
+      const data = await res.json()
+      if (!res.ok || data.error) throw new Error(data.error || `Server error ${res.status}`)
+      setRemoved(true)
+    } catch (e: any) {
+      window.alert(e.message || 'Could not remove this deal.')
+      setRemoving(false)
+    }
+  }
+
   const stageColor =
     tracker.stage === 'under_contract' ? 'text-[#5EC89A]' :
     tracker.stage === 'performing' ? 'text-[#5EC89A]' :
     'text-gold'
+
+  if (removed) return null
 
   return (
     <div className="card overflow-hidden">
@@ -131,6 +153,14 @@ export function DealTrackerCard({ tracker }: { tracker: any }) {
               </span>
             </div>
           ))}
+
+          {/* Remove from portfolio */}
+          <div className="pt-2 flex justify-end">
+            <button onClick={removeDeal} disabled={removing}
+              className="text-xs text-[#AAAAAA] hover:text-red-500 transition-colors disabled:opacity-40">
+              {removing ? 'Removing…' : 'Remove from portfolio'}
+            </button>
+          </div>
         </div>
       )}
     </div>
